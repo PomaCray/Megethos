@@ -1,26 +1,37 @@
 @import "tailwindcss";
+@import "tailwindcss/utilities";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Simple CSS marquee (modern replacement for deprecated <marquee> tag) */
+.marquee {
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+.marquee__inner {
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	padding-left: 100%; /* start off-screen to the right */
+	animation: meeg-marquee 20s linear infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.marquee__outer {
+	display: inline-block;
+	white-space: nowrap;
+	padding-left: 100%; /* start off-screen to the left */
+	animation: maag-marquee 20s linear infinite;
+}
+@keyframes meeg-marquee {
+	0% { transform: translateX(0%); }
+	100% { transform: translateX(-100%); }
+}
+@keyframes maag-marquee {
+	0% { transform: translateX(-100%); }
+	100% { transform: translateX(0%); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Utility: reduce animation duration on reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+	.marquee__inner { animation: none; }
+	.marquee__outer { animation: none; }
 }
